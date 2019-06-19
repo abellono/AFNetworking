@@ -1,4 +1,4 @@
-// AFHTTPSessionManager.m
+// PURHTTPSessionManager.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,10 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFHTTPSessionManager.h"
+#import "PURHTTPSessionManager.h"
 
-#import "AFURLRequestSerialization.h"
-#import "AFURLResponseSerialization.h"
+#import "PURURLRequestSerialization.h"
+#import "PURURLResponseSerialization.h"
 
 #import <Availability.h>
 #import <TargetConditionals.h>
@@ -40,11 +40,11 @@
 #import <WatchKit/WatchKit.h>
 #endif
 
-@interface AFHTTPSessionManager ()
+@interface PURHTTPSessionManager ()
 @property (readwrite, nonatomic, strong) NSURL *baseURL;
 @end
 
-@implementation AFHTTPSessionManager
+@implementation PURHTTPSessionManager
 @dynamic responseSerializer;
 
 + (instancetype)manager {
@@ -78,21 +78,21 @@
 
     self.baseURL = url;
 
-    self.requestSerializer = [AFHTTPRequestSerializer serializer];
-    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.requestSerializer = [PURHTTPRequestSerializer serializer];
+    self.responseSerializer = [PURJSONResponseSerializer serializer];
 
     return self;
 }
 
 #pragma mark -
 
-- (void)setRequestSerializer:(AFHTTPRequestSerializer <AFURLRequestSerialization> *)requestSerializer {
+- (void)setRequestSerializer:(PURHTTPRequestSerializer <PURURLRequestSerialization> *)requestSerializer {
     NSParameterAssert(requestSerializer);
 
     _requestSerializer = requestSerializer;
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer <AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(PURHTTPResponseSerializer <PURURLResponseSerialization> *)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     [super setResponseSerializer:responseSerializer];
@@ -100,13 +100,13 @@
 
 @dynamic securityPolicy;
 
-- (void)setSecurityPolicy:(AFSecurityPolicy *)securityPolicy {
-    if (securityPolicy.SSLPinningMode != AFSSLPinningModeNone && ![self.baseURL.scheme isEqualToString:@"https"]) {
+- (void)setSecurityPolicy:(PURSecurityPolicy *)securityPolicy {
+    if (securityPolicy.SSLPinningMode != PURSSLPinningModeNone && ![self.baseURL.scheme isEqualToString:@"https"]) {
         NSString *pinningMode = @"Unknown Pinning Mode";
         switch (securityPolicy.SSLPinningMode) {
-            case AFSSLPinningModeNone:        pinningMode = @"AFSSLPinningModeNone"; break;
-            case AFSSLPinningModeCertificate: pinningMode = @"AFSSLPinningModeCertificate"; break;
-            case AFSSLPinningModePublicKey:   pinningMode = @"AFSSLPinningModePublicKey"; break;
+            case PURSSLPinningModeNone:        pinningMode = @"PURSSLPinningModeNone"; break;
+            case PURSSLPinningModeCertificate: pinningMode = @"PURSSLPinningModeCertificate"; break;
+            case PURSSLPinningModePublicKey:   pinningMode = @"PURSSLPinningModePublicKey"; break;
         }
         NSString *reason = [NSString stringWithFormat:@"A security policy configured with `%@` can only be applied on a manager with a secure base URL (i.e. https)", pinningMode];
         @throw [NSException exceptionWithName:@"Invalid Security Policy" reason:reason userInfo:nil];
@@ -216,7 +216,7 @@
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(nullable id)parameters
-     constructingBodyWithBlock:(nullable void (^)(id<AFMultipartFormData> _Nonnull))block
+     constructingBodyWithBlock:(nullable void (^)(id<PURMultipartFormData> _Nonnull))block
                        success:(nullable void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success
                        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure
 {
@@ -225,7 +225,7 @@
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(id)parameters
-     constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+     constructingBodyWithBlock:(void (^)(id <PURMultipartFormData> formData))block
                       progress:(nullable void (^)(NSProgress * _Nonnull))uploadProgress
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
@@ -236,7 +236,7 @@
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(id)parameters
                        headers:(NSDictionary<NSString *,NSString *> *)headers
-     constructingBodyWithBlock:(void (^)(id<AFMultipartFormData> _Nonnull))block
+     constructingBodyWithBlock:(void (^)(id<PURMultipartFormData> _Nonnull))block
                       progress:(void (^)(NSProgress * _Nonnull))uploadProgress
                        success:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success failure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure
 {
@@ -409,9 +409,9 @@
         return nil;
     }
 
-    self.requestSerializer = [decoder decodeObjectOfClass:[AFHTTPRequestSerializer class] forKey:NSStringFromSelector(@selector(requestSerializer))];
-    self.responseSerializer = [decoder decodeObjectOfClass:[AFHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
-    AFSecurityPolicy *decodedPolicy = [decoder decodeObjectOfClass:[AFSecurityPolicy class] forKey:NSStringFromSelector(@selector(securityPolicy))];
+    self.requestSerializer = [decoder decodeObjectOfClass:[PURHTTPRequestSerializer class] forKey:NSStringFromSelector(@selector(requestSerializer))];
+    self.responseSerializer = [decoder decodeObjectOfClass:[PURHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
+    PURSecurityPolicy *decodedPolicy = [decoder decodeObjectOfClass:[PURSecurityPolicy class] forKey:NSStringFromSelector(@selector(securityPolicy))];
     if (decodedPolicy) {
         self.securityPolicy = decodedPolicy;
     }
@@ -436,7 +436,7 @@
 #pragma mark - NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    AFHTTPSessionManager *HTTPClient = [[[self class] allocWithZone:zone] initWithBaseURL:self.baseURL sessionConfiguration:self.session.configuration];
+    PURHTTPSessionManager *HTTPClient = [[[self class] allocWithZone:zone] initWithBaseURL:self.baseURL sessionConfiguration:self.session.configuration];
 
     HTTPClient.requestSerializer = [self.requestSerializer copyWithZone:zone];
     HTTPClient.responseSerializer = [self.responseSerializer copyWithZone:zone];

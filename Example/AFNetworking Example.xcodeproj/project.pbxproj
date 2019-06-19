@@ -525,7 +525,7 @@
 			};
 			buildConfigurationList = 29E6F16E1BB9DA2E00A4466C /* Build configuration list for PBXProject "AFNetworking Example" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,

@@ -1,4 +1,4 @@
-// AFUIImageViewTests.h
+// PURUIImageViewTests.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,11 +19,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
-#import "UIImageView+AFNetworking.h"
-#import "AFImageDownloader.h"
+#import "PURTestCase.h"
+#import "UIImageView+PURNetworking.h"
+#import "PURImageDownloader.h"
 
-@interface AFUIImageViewTests : AFTestCase
+@interface PURUIImageViewTests : PURTestCase
 @property (nonatomic, strong) UIImage *cachedImage;
 @property (nonatomic, strong) NSURLRequest *cachedImageRequest;
 @property (nonatomic, strong) UIImageView *imageView;
@@ -34,13 +34,13 @@
 
 @end
 
-@implementation AFUIImageViewTests
+@implementation PURUIImageViewTests
 
 - (void)setUp {
     [super setUp];
     [[UIImageView sharedImageDownloader].imageCache removeAllImages];
     [[[[[[UIImageView sharedImageDownloader] sessionManager] session] configuration] URLCache] removeAllCachedResponses];
-    [UIImageView setSharedImageDownloader:[[AFImageDownloader alloc] init]];
+    [UIImageView setSharedImageDownloader:[[PURImageDownloader alloc] init]];
 
     self.imageView = [UIImageView new];
 
@@ -89,7 +89,7 @@
 }
 
 - (void)testResponseIsNilWhenLoadedFromCache {
-    AFImageDownloader *downloader = [UIImageView sharedImageDownloader];
+    PURImageDownloader *downloader = [UIImageView sharedImageDownloader];
     XCTestExpectation *cacheExpectation = [self expectationWithDescription:@"Cache request should succeed"];
     __block UIImage *downloadImage = nil;
     [downloader

@@ -24,7 +24,7 @@
 #import "TodayViewController.h"
 #import "Post.h"
 #import "User.h"
-@import AFNetworking;
+@import PURNetworking;
 
 @interface TodayViewController () <NCWidgetProviding>
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
@@ -85,18 +85,18 @@
 - (void)savePost:(Post *)post {
 
     if (post == nil) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"AF.post"];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PUR.post"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         return;
     }
 
     NSData *postData = [NSKeyedArchiver archivedDataWithRootObject:post];
-    [[NSUserDefaults standardUserDefaults] setObject:postData forKey:@"AF.post"];
+    [[NSUserDefaults standardUserDefaults] setObject:postData forKey:@"PUR.post"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (Post *)loadSavedPost {
-    NSData *postData = [[NSUserDefaults standardUserDefaults] objectForKey:@"AF.post"];
+    NSData *postData = [[NSUserDefaults standardUserDefaults] objectForKey:@"PUR.post"];
     if (postData == nil || ![postData isKindOfClass:[NSData class]]) {
         return nil;
     }

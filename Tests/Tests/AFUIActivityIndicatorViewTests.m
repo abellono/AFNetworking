@@ -1,4 +1,4 @@
-// AFUIActivityIndicatorViewTests.h
+// PURUIActivityIndicatorViewTests.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,23 +19,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
-#import "UIActivityIndicatorView+AFNetworking.h"
-#import "AFURLSessionManager.h"
+#import "PURTestCase.h"
+#import "UIActivityIndicatorView+PURNetworking.h"
+#import "PURURLSessionManager.h"
 
-@interface AFUIActivityIndicatorViewTests : AFTestCase
+@interface PURUIActivityIndicatorViewTests : PURTestCase
 @property (nonatomic, strong) NSURLRequest *request;
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
-@property (nonatomic, strong) AFURLSessionManager *sessionManager;
+@property (nonatomic, strong) PURURLSessionManager *sessionManager;
 @end
 
-@implementation AFUIActivityIndicatorViewTests
+@implementation PURUIActivityIndicatorViewTests
 
 - (void)setUp {
     [super setUp];
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     self.request = [NSURLRequest requestWithURL:self.delayURL];
-    self.sessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:nil];
+    self.sessionManager = [[PURURLSessionManager alloc] initWithSessionConfiguration:nil];
 }
 
 - (void)tearDown {
@@ -46,7 +46,7 @@
 
 - (void)testTaskDidResumeNotificationDoesNotCauseCrashForAIVWithTask {
     XCTestExpectation *expectation = [self expectationWithDescription:@"No Crash"];
-    [self expectationForNotification:AFNetworkingTaskDidResumeNotification object:nil handler:nil];
+    [self expectationForNotification:PURNetworkingTaskDidResumeNotification object:nil handler:nil];
     NSURLSessionDataTask *task = [self.sessionManager
                                   dataTaskWithRequest:self.request
                                   uploadProgress:nil
@@ -66,7 +66,7 @@
 
 - (void)testTaskDidCompleteNotificationDoesNotCauseCrashForAIVWithTask {
     XCTestExpectation *expectation = [self expectationWithDescription:@"No Crash"];
-    [self expectationForNotification:AFNetworkingTaskDidCompleteNotification object:nil handler:nil];
+    [self expectationForNotification:PURNetworkingTaskDidCompleteNotification object:nil handler:nil];
     NSURLSessionDataTask *task = [self.sessionManager
                                   dataTaskWithRequest:self.request
                                   uploadProgress:nil
@@ -90,7 +90,7 @@
 
 - (void)testTaskDidSuspendNotificationDoesNotCauseCrashForAIVWithTask {
     XCTestExpectation *expectation = [self expectationWithDescription:@"No Crash"];
-    [self expectationForNotification:AFNetworkingTaskDidSuspendNotification object:nil handler:nil];
+    [self expectationForNotification:PURNetworkingTaskDidSuspendNotification object:nil handler:nil];
     NSURLSessionDataTask *task = [self.sessionManager
                                   dataTaskWithRequest:self.request
                                   uploadProgress:nil

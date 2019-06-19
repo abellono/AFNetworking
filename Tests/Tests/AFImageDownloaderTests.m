@@ -1,4 +1,4 @@
-// AFImageDownloaderTests.m
+// PURImageDownloaderTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,27 +19,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
-#import "AFImageDownloader.h"
+#import "PURTestCase.h"
+#import "PURImageDownloader.h"
 
-@interface MockAFAutoPurgingImageCache : AFAutoPurgingImageCache
+@interface MockPURAutoPurgingImageCache : PURAutoPurgingImageCache
 @property (nonatomic, strong) BOOL(^shouldCache)(UIImage*, NSURLRequest*, NSString*);
 @property (nonatomic, strong) void(^addCache)(UIImage*, NSString*);
 @end
 
-@interface AFImageDownloaderTests : AFTestCase
+@interface PURImageDownloaderTests : PURTestCase
 @property (nonatomic, strong) NSURLRequest *pngRequest;
 @property (nonatomic, strong) NSURLRequest *jpegRequest;
-@property (nonatomic, strong) AFImageDownloader *downloader;
+@property (nonatomic, strong) PURImageDownloader *downloader;
 @end
 
-@implementation AFImageDownloaderTests
+@implementation PURImageDownloaderTests
 
 - (void)setUp {
     [super setUp];
-    self.downloader = [[AFImageDownloader alloc] init];
-    [[AFImageDownloader defaultURLCache] removeAllCachedResponses];
-    [[[AFImageDownloader defaultInstance] imageCache] removeAllImages];
+    self.downloader = [[PURImageDownloader alloc] init];
+    [[PURImageDownloader defaultURLCache] removeAllCachedResponses];
+    [[[PURImageDownloader defaultInstance] imageCache] removeAllImages];
     self.pngRequest = [NSURLRequest requestWithURL:self.pngURL];
     self.jpegRequest = [NSURLRequest requestWithURL:self.jpegURL];
 }
@@ -55,7 +55,7 @@
 #pragma mark - Image Download
 
 - (void)testThatImageDownloaderSingletonCanBeInitialized {
-    AFImageDownloader *downloader = [AFImageDownloader defaultInstance];
+    PURImageDownloader *downloader = [PURImageDownloader defaultInstance];
     XCTAssertNotNil(downloader, @"Downloader should not be nil");
 }
 
@@ -76,7 +76,7 @@
      **/
     NSURLRequest *invalidRequest = [mutableURLRequest copy];
     XCTestExpectation *expectation = [self expectationWithDescription:@"Request should fail"];
-    AFImageDownloadReceipt *downloadReceipt = [self.downloader
+    PURImageDownloadReceipt *downloadReceipt = [self.downloader
                                                downloadImageForURLRequest:invalidRequest
                                                success:nil
                                                failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
@@ -243,7 +243,7 @@
     XCTestExpectation *expectation3 = [self expectationWithDescription:@"image 1 shouldCache called"];
     XCTestExpectation *expectation4 = [self expectationWithDescription:@"image 1 addCache called"];
     
-    MockAFAutoPurgingImageCache *mock = [[MockAFAutoPurgingImageCache alloc] init];
+    MockPURAutoPurgingImageCache *mock = [[MockPURAutoPurgingImageCache alloc] init];
     mock.shouldCache = ^BOOL(UIImage *img, NSURLRequest *req, NSString *iden) {
         [expectation3 fulfill];
         return YES;
@@ -292,7 +292,7 @@
 - (void)testThatImageCacheIsPromptedShouldCacheNot {
     XCTestExpectation *expectation3 = [self expectationWithDescription:@"image 1 shouldCache called"];
     
-    MockAFAutoPurgingImageCache *mock = [[MockAFAutoPurgingImageCache alloc] init];
+    MockPURAutoPurgingImageCache *mock = [[MockPURAutoPurgingImageCache alloc] init];
     mock.shouldCache = ^BOOL(UIImage *img, NSURLRequest *req, NSString *iden) {
         [expectation3 fulfill];
         return NO;
@@ -347,7 +347,7 @@
 
 - (void)testThatImageDownloadReceiptIsNilForCachedImage {
     XCTestExpectation *expectation1 = [self expectationWithDescription:@"image 1 download should succeed"];
-    AFImageDownloadReceipt *receipt1;
+    PURImageDownloadReceipt *receipt1;
     receipt1 = [self.downloader
                 downloadImageForURLRequest:self.pngRequest
                 success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull responseObject) {
@@ -359,7 +359,7 @@
 
     XCTestExpectation *expectation2 = [self expectationWithDescription:@"image 2 download should succeed"];
 
-    AFImageDownloadReceipt *receipt2;
+    PURImageDownloadReceipt *receipt2;
     receipt2 = [self.downloader
                 downloadImageForURLRequest:self.pngRequest
                 success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull responseObject) {
@@ -378,7 +378,7 @@
 
     __block NSHTTPURLResponse *urlResponse1 = nil;
     __block UIImage *responseImage1 = nil;
-    AFImageDownloadReceipt *receipt1;
+    PURImageDownloadReceipt *receipt1;
     receipt1 = [self.downloader
                 downloadImageForURLRequest:self.pngRequest
                 success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull responseObject) {
@@ -394,7 +394,7 @@
     NSMutableURLRequest *alteredRequest = [self.pngRequest mutableCopy];
     alteredRequest.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
 
-    AFImageDownloadReceipt *receipt2;
+    PURImageDownloadReceipt *receipt2;
     __block NSHTTPURLResponse *urlResponse2 = nil;
     __block UIImage *responseImage2 = nil;
     receipt2 = [self.downloader
@@ -424,7 +424,7 @@
 #pragma mark - Cancellation
 
 - (void)testThatCancellingDownloadCallsCompletionWithCancellationError {
-    AFImageDownloadReceipt *receipt;
+    PURImageDownloadReceipt *receipt;
     XCTestExpectation *expectation = [self expectationWithDescription:@"image download should fail"];
     __block NSError *responseError = nil;
     receipt = [self.downloader
@@ -457,7 +457,7 @@
 
     XCTestExpectation *expectation2 = [self expectationWithDescription:@"image 2 download should fail"];
     __block NSError *responseError = nil;
-    AFImageDownloadReceipt *receipt;
+    PURImageDownloadReceipt *receipt;
     receipt = [self.downloader
                downloadImageForURLRequest:self.pngRequest
                success:nil
@@ -485,7 +485,7 @@
 
     for (NSString *imageURLString in imageURLStrings) {
         XCTestExpectation *expectation = [self expectationWithDescription:[NSString stringWithFormat:@"Request %@ should be cancelled", imageURLString]];
-        AFImageDownloadReceipt *receipt = [self.downloader
+        PURImageDownloadReceipt *receipt = [self.downloader
                                            downloadImageForURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageURLString]]
                                            success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull responseObject) {
                                                XCTFail(@"Request %@ succeeded when it should have failed", request);
@@ -546,7 +546,7 @@
 
 - (void)testThatReceiptIDMatchesReturnedID {
     NSUUID *receiptId = [NSUUID UUID];
-    AFImageDownloadReceipt *receipt =  [self.downloader
+    PURImageDownloadReceipt *receipt =  [self.downloader
                                         downloadImageForURLRequest:self.jpegRequest
                                         withReceiptID:receiptId
                                         success:nil
@@ -559,7 +559,7 @@
 
 #pragma mark -
 
-@implementation MockAFAutoPurgingImageCache
+@implementation MockPURAutoPurgingImageCache
 
 - (BOOL)shouldCacheImage:(UIImage *)image forRequest:(NSURLRequest *)request withAdditionalIdentifier:(NSString *)identifier {
     if (self.shouldCache) {

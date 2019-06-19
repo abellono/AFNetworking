@@ -1,4 +1,4 @@
-// AFAppDotNetAPIClient.h
+// PURAppDotNetAPIClient.h
 //
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 // 
@@ -20,18 +20,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFAppDotNetAPIClient.h"
+#import "PURAppDotNetAPIClient.h"
 
-static NSString * const AFAppDotNetAPIBaseURLString = @"https://api.app.net/";
+static NSString * const PURAppDotNetAPIBaseURLString = @"https://api.app.net/";
 
-@implementation AFAppDotNetAPIClient
+@implementation PURAppDotNetAPIClient
 
 + (instancetype)sharedClient {
-    static AFAppDotNetAPIClient *_sharedClient = nil;
+    static PURAppDotNetAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[AFAppDotNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:AFAppDotNetAPIBaseURLString]];
-        _sharedClient.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        _sharedClient = [[PURAppDotNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:PURAppDotNetAPIBaseURLString]];
+        _sharedClient.securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeNone];
     });
     
     return _sharedClient;

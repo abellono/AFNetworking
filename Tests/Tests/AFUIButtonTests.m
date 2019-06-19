@@ -1,4 +1,4 @@
-// AFUIButtonTests.h
+// PURUIButtonTests.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,11 +20,11 @@
 // THE SOFTWARE.
 
 #import <XCTest/XCTest.h>
-#import "AFTestCase.h"
-#import "UIButton+AFNetworking.h"
-#import "AFImageDownloader.h"
+#import "PURTestCase.h"
+#import "UIButton+PURNetworking.h"
+#import "PURImageDownloader.h"
 
-@interface AFUIButtonTests : AFTestCase
+@interface PURUIButtonTests : PURTestCase
 @property (nonatomic, strong) UIImage *cachedImage;
 @property (nonatomic, strong) NSURLRequest *cachedImageRequest;
 @property (nonatomic, strong) UIButton *button;
@@ -34,13 +34,13 @@
 @property (nonatomic, strong) NSURLRequest *jpegURLRequest;
 @end
 
-@implementation AFUIButtonTests
+@implementation PURUIButtonTests
 
 - (void)setUp {
     [super setUp];
     [[UIButton sharedImageDownloader].imageCache removeAllImages];
     [[[[[[UIButton sharedImageDownloader] sessionManager] session] configuration] URLCache] removeAllCachedResponses];
-    [UIButton setSharedImageDownloader:[[AFImageDownloader alloc] init]];
+    [UIButton setSharedImageDownloader:[[PURImageDownloader alloc] init]];
 
     self.button = [UIButton new];
 

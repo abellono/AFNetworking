@@ -26,7 +26,7 @@
 
 #import "PostTableViewCell.h"
 
-@import AFNetworking;
+@import PURNetworking;
 
 @interface GlobalTimelineViewController ()
 @property (readwrite, nonatomic, strong) NSArray *posts;
@@ -52,7 +52,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"AFNetworking", nil);
+    self.title = NSLocalizedString(@"PURNetworking", nil);
 
     self.refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.frame.size.width, 100.0f)];
     [self.refreshControl addTarget:self action:@selector(reload:) forControlEvents:UIControlEventValueChanged];

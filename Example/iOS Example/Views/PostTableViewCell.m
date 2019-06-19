@@ -25,7 +25,7 @@
 #import "Post.h"
 #import "User.h"
 
-@import AFNetworking;
+@import PURNetworking;
 
 @implementation PostTableViewCell
 

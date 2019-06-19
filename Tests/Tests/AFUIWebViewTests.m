@@ -1,4 +1,4 @@
-// AFUIWebViewTests.h
+// PURUIWebViewTests.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,17 +20,17 @@
 // THE SOFTWARE.
 
 #import <XCTest/XCTest.h>
-#import "AFTestCase.h"
-#import "UIWebView+AFNetworking.h"
+#import "PURTestCase.h"
+#import "UIWebView+PURNetworking.h"
 
-@interface AFUIWebViewTests : AFTestCase
+@interface PURUIWebViewTests : PURTestCase
 
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) NSURLRequest *HTMLRequest;
 
 @end
 
-@implementation AFUIWebViewTests
+@implementation PURUIWebViewTests
 
 - (void)setUp {
     [super setUp];

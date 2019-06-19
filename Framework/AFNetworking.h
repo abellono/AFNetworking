@@ -1,4 +1,4 @@
-// AFNetworking.h
+// PURNetworking.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,47 +21,47 @@
 
 #import <Foundation/Foundation.h>
 
-//! Project version number for AFNetworking.
-FOUNDATION_EXPORT double AFNetworkingVersionNumber;
+//! Project version number for PURNetworking.
+FOUNDATION_EXPORT double PURNetworkingVersionNumber;
 
-//! Project version string for AFNetworking.
-FOUNDATION_EXPORT const unsigned char AFNetworkingVersionString[];
+//! Project version string for PURNetworking.
+FOUNDATION_EXPORT const unsigned char PURNetworkingVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <AFNetworking/PublicHeader.h>
+// In this header, you should import all the public headers of your framework using statements like #import <PURNetworking/PublicHeader.h>
 
 #import <Availability.h>
 #import <TargetConditionals.h>
 
-#ifndef _AFNETWORKING_
-#define _AFNETWORKING_
+#ifndef _PURNETWORKING_
+#define _PURNETWORKING_
 
-#import <AFNetworking/AFURLRequestSerialization.h>
-#import <AFNetworking/AFURLResponseSerialization.h>
-#import <AFNetworking/AFSecurityPolicy.h>
-#import <AFNetworking/AFCompatibilityMacros.h>
+#import <PURNetworking/PURURLRequestSerialization.h>
+#import <PURNetworking/PURURLResponseSerialization.h>
+#import <PURNetworking/PURSecurityPolicy.h>
+#import <PURNetworking/PURCompatibilityMacros.h>
 
 #if !TARGET_OS_WATCH
-#import <AFNetworking/AFNetworkReachabilityManager.h>
+#import <PURNetworking/PURNetworkReachabilityManager.h>
 #endif
 
-#import <AFNetworking/AFURLSessionManager.h>
-#import <AFNetworking/AFHTTPSessionManager.h>
+#import <PURNetworking/PURURLSessionManager.h>
+#import <PURNetworking/PURHTTPSessionManager.h>
 
 #if TARGET_OS_IOS || TARGET_OS_TV
-#import <AFNetworking/AFAutoPurgingImageCache.h>
-#import <AFNetworking/AFImageDownloader.h>
-#import <AFNetworking/UIActivityIndicatorView+AFNetworking.h>
-#import <AFNetworking/UIButton+AFNetworking.h>
-#import <AFNetworking/UIImage+AFNetworking.h>
-#import <AFNetworking/UIImageView+AFNetworking.h>
-#import <AFNetworking/UIProgressView+AFNetworking.h>
+#import <PURNetworking/PURAutoPurgingImageCache.h>
+#import <PURNetworking/PURImageDownloader.h>
+#import <PURNetworking/UIActivityIndicatorView+PURNetworking.h>
+#import <PURNetworking/UIButton+PURNetworking.h>
+#import <PURNetworking/UIImage+PURNetworking.h>
+#import <PURNetworking/UIImageView+PURNetworking.h>
+#import <PURNetworking/UIProgressView+PURNetworking.h>
 #endif
 
 #if TARGET_OS_IOS
-#import <AFNetworking/AFNetworkActivityIndicatorManager.h>
-#import <AFNetworking/UIRefreshControl+AFNetworking.h>
-#import <AFNetworking/UIWebView+AFNetworking.h>
+#import <PURNetworking/PURNetworkActivityIndicatorManager.h>
+#import <PURNetworking/UIRefreshControl+PURNetworking.h>
+#import <PURNetworking/UIWebView+PURNetworking.h>
 #endif
 
 
-#endif /* _AFNETWORKING_ */
+#endif /* _PURNETWORKING_ */

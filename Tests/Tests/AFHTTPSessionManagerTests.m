@@ -1,4 +1,4 @@
-// AFHTTPSessionManagerTests.m
+// PURHTTPSessionManagerTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,20 +19,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
+#import "PURTestCase.h"
 
-#import "AFHTTPSessionManager.h"
-#import "AFSecurityPolicy.h"
+#import "PURHTTPSessionManager.h"
+#import "PURSecurityPolicy.h"
 
-@interface AFHTTPSessionManagerTests : AFTestCase
-@property (readwrite, nonatomic, strong) AFHTTPSessionManager *sessionManager;
+@interface PURHTTPSessionManagerTests : PURTestCase
+@property (readwrite, nonatomic, strong) PURHTTPSessionManager *sessionManager;
 @end
 
-@implementation AFHTTPSessionManagerTests
+@implementation PURHTTPSessionManagerTests
 
 - (void)setUp {
     [super setUp];
-    self.sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.baseURL];
+    self.sessionManager = [[PURHTTPSessionManager alloc] initWithBaseURL:self.baseURL];
 }
 
 - (void)tearDown {
@@ -43,7 +43,7 @@
 
 #pragma mark - init
 - (void)testSharedManagerIsNotEqualToInitedManager {
-    XCTAssertFalse([[AFHTTPSessionManager manager] isEqual:self.sessionManager]);
+    XCTAssertFalse([[PURHTTPSessionManager manager] isEqual:self.sessionManager]);
 }
 
 #pragma mark - misc
@@ -203,7 +203,7 @@
 #pragma mark - NSCoding
 
 - (void)testSupportsSecureCoding {
-    XCTAssertTrue([AFHTTPSessionManager supportsSecureCoding]);
+    XCTAssertTrue([PURHTTPSessionManager supportsSecureCoding]);
 }
 
 - (void)testCanBeEncoded {
@@ -213,7 +213,7 @@
 
 - (void)testCanBeDecoded {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.sessionManager];
-    AFHTTPSessionManager *newManager = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    PURHTTPSessionManager *newManager = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     XCTAssertNotNil(newManager.securityPolicy);
     XCTAssertNotNil(newManager.requestSerializer);
     XCTAssertNotNil(newManager.responseSerializer);
@@ -225,7 +225,7 @@
 #pragma mark - NSCopying 
 
 - (void)testCanBeCopied {
-    AFHTTPSessionManager *copyManager = [self.sessionManager copy];
+    PURHTTPSessionManager *copyManager = [self.sessionManager copy];
     XCTAssertNotNil(copyManager);
 }
 
@@ -248,9 +248,9 @@
 }
 
 - (void)testUploadProgressIsReportedForPOST {
-    NSMutableString *payload = [NSMutableString stringWithString:@"AFNetworking"];
+    NSMutableString *payload = [NSMutableString stringWithString:@"PURNetworking"];
     while ([payload lengthOfBytesUsingEncoding:NSUTF8StringEncoding] < 20000) {
-        [payload appendString:@"AFNetworking"];
+        [payload appendString:@"PURNetworking"];
     }
 
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Progress Should equal 1.0"];
@@ -270,9 +270,9 @@
 }
 
 - (void)testUploadProgressIsReportedForStreamingPost {
-    NSMutableString *payload = [NSMutableString stringWithString:@"AFNetworking"];
+    NSMutableString *payload = [NSMutableString stringWithString:@"PURNetworking"];
     while ([payload lengthOfBytesUsingEncoding:NSUTF8StringEncoding] < 20000) {
-        [payload appendString:@"AFNetworking"];
+        [payload appendString:@"PURNetworking"];
     }
 
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Progress Should equal 1.0"];
@@ -281,8 +281,8 @@
      POST:@"post"
      parameters:nil
      headers:nil
-     constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-         [formData appendPartWithFileData:[payload dataUsingEncoding:NSUTF8StringEncoding] name:@"AFNetworking" fileName:@"AFNetworking" mimeType:@"text/html"];
+     constructingBodyWithBlock:^(id<PURMultipartFormData>  _Nonnull formData) {
+         [formData appendPartWithFileData:[payload dataUsingEncoding:NSUTF8StringEncoding] name:@"PURNetworking" fileName:@"PURNetworking" mimeType:@"text/html"];
      }
      progress:^(NSProgress * _Nonnull uploadProgress) {
          if (uploadProgress.fractionCompleted == 1.0) {
@@ -315,9 +315,9 @@
 }
 
 - (void)testUploadProgressIsReportedForDeprecatedPOST {
-    NSMutableString *payload = [NSMutableString stringWithString:@"AFNetworking"];
+    NSMutableString *payload = [NSMutableString stringWithString:@"PURNetworking"];
     while ([payload lengthOfBytesUsingEncoding:NSUTF8StringEncoding] < 20000) {
-        [payload appendString:@"AFNetworking"];
+        [payload appendString:@"PURNetworking"];
     }
     
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Progress Should equal 1.0"];
@@ -338,9 +338,9 @@
 }
 
 - (void)testUploadProgressIsReportedForStreamingDeprecatedPost {
-    NSMutableString *payload = [NSMutableString stringWithString:@"AFNetworking"];
+    NSMutableString *payload = [NSMutableString stringWithString:@"PURNetworking"];
     while ([payload lengthOfBytesUsingEncoding:NSUTF8StringEncoding] < 20000) {
-        [payload appendString:@"AFNetworking"];
+        [payload appendString:@"PURNetworking"];
     }
     
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Progress Should equal 1.0"];
@@ -349,8 +349,8 @@
     [self.sessionManager
      POST:@"post"
      parameters:nil
-     constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-         [formData appendPartWithFileData:[payload dataUsingEncoding:NSUTF8StringEncoding] name:@"AFNetworking" fileName:@"AFNetworking" mimeType:@"text/html"];
+     constructingBodyWithBlock:^(id<PURMultipartFormData>  _Nonnull formData) {
+         [formData appendPartWithFileData:[payload dataUsingEncoding:NSUTF8StringEncoding] name:@"PURNetworking" fileName:@"PURNetworking" mimeType:@"text/html"];
      }
      progress:^(NSProgress * _Nonnull uploadProgress) {
          if (uploadProgress.fractionCompleted == 1.0) {
@@ -463,7 +463,7 @@
      POST:@"post"
      parameters:@{@"key":@"value"}
      headers:@{@"field":@"value"}
-     constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+     constructingBodyWithBlock:^(id<PURMultipartFormData>  _Nonnull formData) {
          [formData appendPartWithFileData:[@"Data" dataUsingEncoding:NSUTF8StringEncoding]
                                      name:@"DataName"
                                  fileName:@"DataFileName"
@@ -567,7 +567,7 @@
     [self.sessionManager
      POST:@"post"
      parameters:@{@"key":@"value"}
-     constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+     constructingBodyWithBlock:^(id<PURMultipartFormData>  _Nonnull formData) {
          [formData appendPartWithFileData:[@"Data" dataUsingEncoding:NSUTF8StringEncoding]
                                      name:@"DataName"
                                  fileName:@"DataFileName"
@@ -641,7 +641,7 @@
     [self.sessionManager
      POST:@"post"
      parameters:@{@"key":@"value"}
-     constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+     constructingBodyWithBlock:^(id<PURMultipartFormData>  _Nonnull formData) {
          [formData appendPartWithFileData:[@"Data" dataUsingEncoding:NSUTF8StringEncoding]
                                      name:@"DataName"
                                  fileName:@"DataFileName"
@@ -728,50 +728,50 @@
 # pragma mark - Security Policy
 
 - (void)testValidSecureNoPinningSecurityPolicy {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://example.com"]];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://example.com"]];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeNone];
     XCTAssertNoThrow(manager.securityPolicy = securityPolicy);
 }
 
 - (void)testValidInsecureNoPinningSecurityPolicy {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://example.com"]];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://example.com"]];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeNone];
     XCTAssertNoThrow(manager.securityPolicy = securityPolicy);
 }
 
 - (void)testValidCertificatePinningSecurityPolicy {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://example.com"]];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://example.com"]];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeCertificate];
     XCTAssertNoThrow(manager.securityPolicy = securityPolicy);
 }
 
 - (void)testInvalidCertificatePinningSecurityPolicy {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://example.com"]];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://example.com"]];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeCertificate];
     XCTAssertThrowsSpecificNamed(manager.securityPolicy = securityPolicy, NSException, @"Invalid Security Policy");
 }
 
 - (void)testValidPublicKeyPinningSecurityPolicy {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://example.com"]];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://example.com"]];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModePublicKey];
     XCTAssertNoThrow(manager.securityPolicy = securityPolicy);
 }
 
 - (void)testInvalidPublicKeyPinningSecurityPolicy {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://example.com"]];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://example.com"]];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModePublicKey];
     XCTAssertThrowsSpecificNamed(manager.securityPolicy = securityPolicy, NSException, @"Invalid Security Policy");
 }
 
 - (void)testInvalidCertificatePinningSecurityPolicyWithoutBaseURL {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] init];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeCertificate];
     XCTAssertThrowsSpecificNamed(manager.securityPolicy = securityPolicy, NSException, @"Invalid Security Policy");
 }
 
 - (void)testInvalidPublicKeyPinningSecurityPolicyWithoutBaseURL {
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] init];
-    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] init];
+    PURSecurityPolicy *securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModePublicKey];
     XCTAssertThrowsSpecificNamed(manager.securityPolicy = securityPolicy, NSException, @"Invalid Security Policy");
 }
 
@@ -781,9 +781,9 @@
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Request should fail"];
     NSURL *googleCertificateURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"google.com" withExtension:@"cer"];
     NSData *googleCertificateData = [NSData dataWithContentsOfURL:googleCertificateURL];
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://apple.com/"]];
-    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate withPinnedCertificates:[NSSet setWithObject:googleCertificateData]];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://apple.com/"]];
+    [manager setResponseSerializer:[PURHTTPResponseSerializer serializer]];
+    manager.securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModeCertificate withPinnedCertificates:[NSSet setWithObject:googleCertificateData]];
     [manager
      GET:@""
      parameters:nil
@@ -806,9 +806,9 @@
     __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Request should fail"];
     NSURL *googleCertificateURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"google.com" withExtension:@"cer"];
     NSData *googleCertificateData = [NSData dataWithContentsOfURL:googleCertificateURL];
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://apple.com/"]];
-    [manager setResponseSerializer:[AFHTTPResponseSerializer serializer]];
-    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey withPinnedCertificates:[NSSet setWithObject:googleCertificateData]];
+    PURHTTPSessionManager *manager = [[PURHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:@"https://apple.com/"]];
+    [manager setResponseSerializer:[PURHTTPResponseSerializer serializer]];
+    manager.securityPolicy = [PURSecurityPolicy policyWithPinningMode:PURSSLPinningModePublicKey withPinnedCertificates:[NSSet setWithObject:googleCertificateData]];
     [manager
      GET:@""
      parameters:nil

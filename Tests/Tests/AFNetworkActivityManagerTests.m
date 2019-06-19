@@ -1,4 +1,4 @@
-// AFNetworkActivityManagerTests.m
+// PURNetworkActivityManagerTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,26 +19,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
+#import "PURTestCase.h"
 
-#import "AFNetworkActivityIndicatorManager.h"
-#import "AFHTTPSessionManager.h"
+#import "PURNetworkActivityIndicatorManager.h"
+#import "PURHTTPSessionManager.h"
 
-@interface AFNetworkActivityManagerTests : AFTestCase
-@property (nonatomic, strong) AFNetworkActivityIndicatorManager *networkActivityIndicatorManager;
-@property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
+@interface PURNetworkActivityManagerTests : PURTestCase
+@property (nonatomic, strong) PURNetworkActivityIndicatorManager *networkActivityIndicatorManager;
+@property (nonatomic, strong) PURHTTPSessionManager *sessionManager;
 @end
 
 #pragma mark -
 
-@implementation AFNetworkActivityManagerTests
+@implementation PURNetworkActivityManagerTests
 
 - (void)setUp {
     [super setUp];
 
-    self.sessionManager = [[AFHTTPSessionManager alloc] initWithBaseURL:self.baseURL sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    self.sessionManager = [[PURHTTPSessionManager alloc] initWithBaseURL:self.baseURL sessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
 
-    self.networkActivityIndicatorManager = [[AFNetworkActivityIndicatorManager alloc] init];
+    self.networkActivityIndicatorManager = [[PURNetworkActivityIndicatorManager alloc] init];
     self.networkActivityIndicatorManager.enabled = YES;
 }
 

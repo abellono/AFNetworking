@@ -1,4 +1,4 @@
-// AFUIRefreshControlTests.h
+// PURUIRefreshControlTests.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,23 +19,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
-#import "UIRefreshControl+AFNetworking.h"
-#import "AFURLSessionManager.h"
+#import "PURTestCase.h"
+#import "UIRefreshControl+PURNetworking.h"
+#import "PURURLSessionManager.h"
 
-@interface AFUIRefreshControlTests : AFTestCase
+@interface PURUIRefreshControlTests : PURTestCase
 @property (nonatomic, strong) NSURLRequest *request;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
-@property (nonatomic, strong) AFURLSessionManager *sessionManager;
+@property (nonatomic, strong) PURURLSessionManager *sessionManager;
 @end
 
-@implementation AFUIRefreshControlTests
+@implementation PURUIRefreshControlTests
 
 - (void)setUp {
     [super setUp];
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.request = [NSURLRequest requestWithURL:self.delayURL];
-    self.sessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:nil];
+    self.sessionManager = [[PURURLSessionManager alloc] initWithSessionConfiguration:nil];
 }
 
 - (void)tearDown {
@@ -46,7 +46,7 @@
 
 - (void)testTaskDidResumeNotificationDoesNotCauseCrashForUIRCWithTask {
     XCTestExpectation *expectation = [self expectationWithDescription:@"No Crash"];
-    [self expectationForNotification:AFNetworkingTaskDidResumeNotification object:nil handler:nil];
+    [self expectationForNotification:PURNetworkingTaskDidResumeNotification object:nil handler:nil];
     NSURLSessionDataTask *task = [self.sessionManager
                                   dataTaskWithRequest:self.request
                                   uploadProgress:nil
@@ -65,7 +65,7 @@
 
 - (void)testTaskDidCompleteNotificationDoesNotCauseCrashForUIRCWithTask {
     XCTestExpectation *expectation = [self expectationWithDescription:@"No Crash"];
-    [self expectationForNotification:AFNetworkingTaskDidCompleteNotification object:nil handler:nil];
+    [self expectationForNotification:PURNetworkingTaskDidCompleteNotification object:nil handler:nil];
     NSURLSessionDataTask *task = [self.sessionManager
                                   dataTaskWithRequest:self.request
                                   uploadProgress:nil
@@ -89,7 +89,7 @@
 
 - (void)testTaskDidSuspendNotificationDoesNotCauseCrashForUIRCWithTask {
     XCTestExpectation *expectation = [self expectationWithDescription:@"No Crash"];
-    [self expectationForNotification:AFNetworkingTaskDidSuspendNotification object:nil handler:nil];
+    [self expectationForNotification:PURNetworkingTaskDidSuspendNotification object:nil handler:nil];
     NSURLSessionDataTask *task = [self.sessionManager
                                   dataTaskWithRequest:self.request
                                   uploadProgress:nil

@@ -1,4 +1,4 @@
-// AFNetworkReachabilityManagerTests.h
+// PURNetworkReachabilityManagerTests.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,25 +19,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
+#import "PURTestCase.h"
 
-#import "AFNetworkReachabilityManager.h"
+#import "PURNetworkReachabilityManager.h"
 #import <netinet/in.h>
 #import <objc/message.h>
 
-@interface AFNetworkReachabilityManagerTests : AFTestCase
-@property (nonatomic, strong) AFNetworkReachabilityManager *addressReachability;
-@property (nonatomic, strong) AFNetworkReachabilityManager *domainReachability;
+@interface PURNetworkReachabilityManagerTests : PURTestCase
+@property (nonatomic, strong) PURNetworkReachabilityManager *addressReachability;
+@property (nonatomic, strong) PURNetworkReachabilityManager *domainReachability;
 @end
 
-@implementation AFNetworkReachabilityManagerTests
+@implementation PURNetworkReachabilityManagerTests
 
 - (void)setUp {
     [super setUp];
 
     //both of these manager objects should always be reachable when the tests are run
-    self.domainReachability = [AFNetworkReachabilityManager managerForDomain:@"localhost"];
-    self.addressReachability = [AFNetworkReachabilityManager manager];
+    self.domainReachability = [PURNetworkReachabilityManager managerForDomain:@"localhost"];
+    self.addressReachability = [PURNetworkReachabilityManager manager];
 }
 
 - (void)tearDown
@@ -49,7 +49,7 @@
 }
 
 - (void)testInitializerThrowsExceptionWhenCalled {
-    AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager alloc];
+    PURNetworkReachabilityManager *manager = [PURNetworkReachabilityManager alloc];
     id (*custom_msgSend)(id, SEL) = (id(*)(id, SEL))objc_msgSend;
 
     XCTAssertThrows(custom_msgSend(manager, @selector(init)));
@@ -58,29 +58,29 @@
 - (void)testNewThrowsExceptionWhenCalled {
     id (*custom_msgSend)(id, SEL) = (id(*)(id, SEL))objc_msgSend;
 
-    XCTAssertThrows(custom_msgSend([AFNetworkReachabilityManager class],
+    XCTAssertThrows(custom_msgSend([PURNetworkReachabilityManager class],
                                    @selector(new)));
 }
 
 - (void)testAddressReachabilityStartsInUnknownState {
-    XCTAssertEqual(self.addressReachability.networkReachabilityStatus, AFNetworkReachabilityStatusUnknown,
+    XCTAssertEqual(self.addressReachability.networkReachabilityStatus, PURNetworkReachabilityStatusUnknown,
                    @"Reachability should start in an unknown state");
 }
 
 - (void)testDomainReachabilityStartsInUnknownState {
-    XCTAssertEqual(self.domainReachability.networkReachabilityStatus, AFNetworkReachabilityStatusUnknown,
+    XCTAssertEqual(self.domainReachability.networkReachabilityStatus, PURNetworkReachabilityStatusUnknown,
                    @"Reachability should start in an unknown state");
 }
 
-- (void)verifyReachabilityNotificationGetsPostedWithManager:(AFNetworkReachabilityManager *)manager
+- (void)verifyReachabilityNotificationGetsPostedWithManager:(PURNetworkReachabilityManager *)manager
 {
-    [self expectationForNotification:AFNetworkingReachabilityDidChangeNotification
+    [self expectationForNotification:PURNetworkingReachabilityDidChangeNotification
                               object:nil
                              handler:^BOOL(NSNotification *note) {
-                                 AFNetworkReachabilityStatus status;
-                                 status = [note.userInfo[AFNetworkingReachabilityNotificationStatusItem] integerValue];
-                                 BOOL isReachable = (status == AFNetworkReachabilityStatusReachableViaWiFi
-                                                     || status == AFNetworkReachabilityStatusReachableViaWWAN);
+                                 PURNetworkReachabilityStatus status;
+                                 status = [note.userInfo[PURNetworkingReachabilityNotificationStatusItem] integerValue];
+                                 BOOL isReachable = (status == PURNetworkReachabilityStatusReachableViaWiFi
+                                                     || status == PURNetworkReachabilityStatusReachableViaWWAN);
                                  return isReachable;
                              }];
 
@@ -97,13 +97,13 @@
     [self verifyReachabilityNotificationGetsPostedWithManager:self.domainReachability];
 }
 
-- (void)verifyReachabilityStatusBlockGetsCalledWithManager:(AFNetworkReachabilityManager *)manager
+- (void)verifyReachabilityStatusBlockGetsCalledWithManager:(PURNetworkReachabilityManager *)manager
 {
     __weak __block XCTestExpectation *expectation = [self expectationWithDescription:@"reachability status change block gets called"];
 
-    [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        BOOL isReachable = (status == AFNetworkReachabilityStatusReachableViaWiFi
-                            || status == AFNetworkReachabilityStatusReachableViaWWAN);
+    [manager setReachabilityStatusChangeBlock:^(PURNetworkReachabilityStatus status) {
+        BOOL isReachable = (status == PURNetworkReachabilityStatusReachableViaWiFi
+                            || status == PURNetworkReachabilityStatusReachableViaWWAN);
         if (isReachable) {
             [expectation fulfill];
             expectation = nil;
@@ -126,7 +126,7 @@
 }
 
 - (void)testObjectPostingReachabilityManagerNotification {
-    [self expectationForNotification:AFNetworkingReachabilityDidChangeNotification
+    [self expectationForNotification:PURNetworkingReachabilityDidChangeNotification
                               object:self.domainReachability
                              handler:^BOOL(NSNotification *notification) {
                                  BOOL isObjectPostingNotification = [notification.object isEqual:self.domainReachability];

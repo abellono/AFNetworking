@@ -1,4 +1,4 @@
-// AFPropertyListRequestSerializerTests.m
+// PURPropertyListRequestSerializerTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,19 +19,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
+#import "PURTestCase.h"
 
-#import "AFURLRequestSerialization.h"
+#import "PURURLRequestSerialization.h"
 
-@interface AFPropertyListRequestSerializerTests : AFTestCase
-@property (nonatomic, strong) AFPropertyListRequestSerializer *requestSerializer;
+@interface PURPropertyListRequestSerializerTests : PURTestCase
+@property (nonatomic, strong) PURPropertyListRequestSerializer *requestSerializer;
 @end
 
-@implementation AFPropertyListRequestSerializerTests
+@implementation PURPropertyListRequestSerializerTests
 
 - (void)setUp {
     [super setUp];
-    self.requestSerializer = [AFPropertyListRequestSerializer serializer];
+    self.requestSerializer = [PURPropertyListRequestSerializer serializer];
 }
 
 #pragma mark -

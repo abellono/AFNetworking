@@ -1,4 +1,4 @@
-// AFXMLDocumentResponseSerializerTests.m
+// PURXMLDocumentResponseSerializerTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,36 +19,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFTestCase.h"
+#import "PURTestCase.h"
 
-#import "AFURLRequestSerialization.h"
-#import "AFURLResponseSerialization.h"
+#import "PURURLRequestSerialization.h"
+#import "PURURLResponseSerialization.h"
 
 #import <XCTest/XCTest.h>
 
-static NSData * AFXMLTestData() {
+static NSData * PURXMLTestData() {
     return [@"<?xml version=\"1.0\" encoding=\"UTF-8\"?><foo attr1=\"1\" attr2=\"2\"><bar>someValue</bar></foo>" dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 #pragma mark -
 
-@interface AFXMLDocumentResponseSerializerTests : AFTestCase
-@property (nonatomic, strong) AFXMLDocumentResponseSerializer *responseSerializer;
+@interface PURXMLDocumentResponseSerializerTests : PURTestCase
+@property (nonatomic, strong) PURXMLDocumentResponseSerializer *responseSerializer;
 @end
 
 #pragma mark -
 
-@implementation AFXMLDocumentResponseSerializerTests
+@implementation PURXMLDocumentResponseSerializerTests
 
 - (void)setUp {
     [super setUp];
-    self.responseSerializer = [AFXMLDocumentResponseSerializer serializer];
+    self.responseSerializer = [PURXMLDocumentResponseSerializer serializer];
 }
 
 - (void)testThatXMLDocumentResponseSerializerAcceptsApplicationXMLMimeType {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:self.baseURL statusCode:200 HTTPVersion:@"1.1" headerFields:@{@"Content-Type": @"application/xml"}];
     NSError *error = nil;
-    [self.responseSerializer validateResponse:response data:AFXMLTestData() error:&error];
+    [self.responseSerializer validateResponse:response data:PURXMLTestData() error:&error];
 
     XCTAssertNil(error, @"Error handling application/xml");
 }
@@ -56,7 +56,7 @@ static NSData * AFXMLTestData() {
 - (void)testThatXMLDocumentResponseSerializerAcceptsTextXMLMimeType {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:self.baseURL statusCode:200 HTTPVersion:@"1.1" headerFields:@{@"Content-Type": @"text/xml"}];
     NSError *error = nil;
-    [self.responseSerializer validateResponse:response data:AFXMLTestData() error:&error];
+    [self.responseSerializer validateResponse:response data:PURXMLTestData() error:&error];
 
     XCTAssertNil(error, @"Error handling text/xml");
 }
@@ -64,7 +64,7 @@ static NSData * AFXMLTestData() {
 - (void)testThatXMLDocumentResponseSerializerDoesNotAcceptsNonStandardXMLMimeType {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:self.baseURL statusCode:200 HTTPVersion:@"1.1" headerFields:@{@"Content-Type": @"nonstandard/xml"}];
     NSError *error = nil;
-    [self.responseSerializer validateResponse:response data:AFXMLTestData() error:&error];
+    [self.responseSerializer validateResponse:response data:PURXMLTestData() error:&error];
 
     XCTAssertNotNil(error, @"Error should have been thrown for nonstandard/xml");
 }
@@ -72,7 +72,7 @@ static NSData * AFXMLTestData() {
 - (void)testThatXMLDocumentResponseSerializerReturnsNSXMLDocumentObjectForValidXML {
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:self.baseURL statusCode:200 HTTPVersion:@"1.1" headerFields:@{@"Content-Type": @"application/xml"}];
     NSError *error = nil;
-    id responseObject = [self.responseSerializer responseObjectForResponse:response data:AFXMLTestData() error:&error];
+    id responseObject = [self.responseSerializer responseObjectForResponse:response data:PURXMLTestData() error:&error];
 
     XCTAssertNil(error, @"Serialization error should be nil");
     XCTAssert([responseObject isKindOfClass:[NSXMLDocument class]], @"Expected response to be a NSXMLDocument");
@@ -91,7 +91,7 @@ static NSData * AFXMLTestData() {
     [self.responseSerializer setAcceptableContentTypes:[NSSet setWithObject:@"test/type"]];
 
     [self.responseSerializer setOptions:1];
-    AFXMLDocumentResponseSerializer *copiedSerializer = [self.responseSerializer copy];
+    PURXMLDocumentResponseSerializer *copiedSerializer = [self.responseSerializer copy];
     XCTAssertNotEqual(copiedSerializer, self.responseSerializer);
     XCTAssertEqual(copiedSerializer.acceptableStatusCodes, self.responseSerializer.acceptableStatusCodes);
     XCTAssertEqual(copiedSerializer.acceptableContentTypes, self.responseSerializer.acceptableContentTypes);

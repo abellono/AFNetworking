@@ -1,4 +1,4 @@
-// AFURLSessionManagerTests.m
+// PURURLSessionManagerTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,9 +21,9 @@
 
 #import <objc/runtime.h>
 
-#import "AFTestCase.h"
+#import "PURTestCase.h"
 
-#import "AFURLSessionManager.h"
+#import "PURURLSessionManager.h"
 
 #ifdef __MAC_OS_X_VERSION_MIN_REQUIRED
 #define NSFoundationVersionNumber_With_Fixed_28588583_bug 0.0
@@ -32,12 +32,12 @@
 #endif
 
 
-@interface AFURLSessionManagerTests : AFTestCase
-@property (readwrite, nonatomic, strong) AFURLSessionManager *localManager;
-@property (readwrite, nonatomic, strong) AFURLSessionManager *backgroundManager;
+@interface PURURLSessionManagerTests : PURTestCase
+@property (readwrite, nonatomic, strong) PURURLSessionManager *localManager;
+@property (readwrite, nonatomic, strong) PURURLSessionManager *backgroundManager;
 @end
 
-@implementation AFURLSessionManagerTests
+@implementation PURURLSessionManagerTests
 
 - (NSURLRequest *)bigImageURLRequest {
     NSURL *url = [NSURL URLWithString:@"http://scitechdaily.com/images/New-Image-of-the-Galaxy-Messier-94-also-Known-as-NGC-4736.jpg"];
@@ -47,7 +47,7 @@
 
 - (void)setUp {
     [super setUp];
-    self.localManager = [[AFURLSessionManager alloc] init];
+    self.localManager = [[PURURLSessionManager alloc] init];
     [self.localManager.session.configuration.URLCache removeAllCachedResponses];
 
     //It was discovered that background sessions were hanging the test target
@@ -60,7 +60,7 @@
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_With_Fixed_28588583_bug) {
         NSString *identifier = [NSString stringWithFormat:@"com.afnetworking.tests.urlsession.%@", [[NSUUID UUID] UUIDString]];
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
-        self.backgroundManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        self.backgroundManager = [[PURURLSessionManager alloc] initWithSessionConfiguration:configuration];
     }
     else {
         self.backgroundManager = nil;
@@ -134,16 +134,16 @@
 }
 
 - (void)testSessionTaskDoesReportMetrics {
-    [self expectationForNotification:AFNetworkingTaskDidCompleteNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
-#if AF_CAN_USE_AT_AVAILABLE && AF_CAN_INCLUDE_SESSION_TASK_METRICS
+    [self expectationForNotification:PURNetworkingTaskDidCompleteNotification object:nil handler:^BOOL(NSNotification * _Nonnull notification) {
+#if PUR_CAN_USE_AT_AVAILABLE && PUR_CAN_INCLUDE_SESSION_TASK_METRICS
         if (@available(iOS 10, macOS 10.12, watchOS 3, tvOS 10, *)) {
-            return [notification userInfo][AFNetworkingTaskDidCompleteSessionTaskMetrics] != nil;
+            return [notification userInfo][PURNetworkingTaskDidCompleteSessionTaskMetrics] != nil;
         }
 #endif
         return YES;
     }];
 
-#if AF_CAN_INCLUDE_SESSION_TASK_METRICS
+#if PUR_CAN_INCLUDE_SESSION_TASK_METRICS
     __weak XCTestExpectation *metricsBlock = [self expectationWithDescription:@"Metrics completion block is called"];
     [self.localManager setTaskDidFinishCollectingMetricsBlock:^(NSURLSession * _Nonnull session, NSURLSessionTask * _Nonnull task, NSURLSessionTaskMetrics * _Nullable metrics) {
         [metricsBlock fulfill];
@@ -174,9 +174,9 @@
 }
 
 - (void)testUploadTaskDoesReportProgress {
-    NSMutableString *payload = [NSMutableString stringWithString:@"AFNetworking"];
+    NSMutableString *payload = [NSMutableString stringWithString:@"PURNetworking"];
     while ([payload lengthOfBytesUsingEncoding:NSUTF8StringEncoding] < 20000) {
-        [payload appendString:@"AFNetworking"];
+        [payload appendString:@"PURNetworking"];
     }
 
     NSURL *url = [NSURL URLWithString:[[self.baseURL absoluteString] stringByAppendingString:@"/post"]];
@@ -201,9 +201,9 @@
 }
 
 - (void)testUploadProgressCanBeKVOd {
-    NSMutableString *payload = [NSMutableString stringWithString:@"AFNetworking"];
+    NSMutableString *payload = [NSMutableString stringWithString:@"PURNetworking"];
     while ([payload lengthOfBytesUsingEncoding:NSUTF8StringEncoding] < 20000) {
-        [payload appendString:@"AFNetworking"];
+        [payload appendString:@"PURNetworking"];
     }
 
     NSURL *url = [NSURL URLWithString:[[self.baseURL absoluteString] stringByAppendingString:@"/post"]];
@@ -227,8 +227,8 @@
 #pragma mark - rdar://17029580
 
 - (void)testRDAR17029580IsFixed {
-    //https://github.com/AFNetworking/AFNetworking/issues/2093
-    //https://github.com/AFNetworking/AFNetworking/pull/3205
+    //https://github.com/PURNetworking/PURNetworking/issues/2093
+    //https://github.com/PURNetworking/PURNetworking/pull/3205
     //http://openradar.appspot.com/radar?id=5871104061079552
     dispatch_queue_t serial_queue = dispatch_queue_create("com.alamofire.networking.test.RDAR17029580", DISPATCH_QUEUE_SERIAL);
     NSMutableArray *taskIDs = [[NSMutableArray alloc] init];
@@ -370,11 +370,11 @@
 }
 
 - (void)testSwizzlingIsProperlyConfiguredForDummyClass {
-    IMP originalAFResumeIMP = [self _originalAFResumeImplementation];
-    IMP originalAFSuspendIMP = [self _originalAFSuspendImplementation];
-    XCTAssert(originalAFResumeIMP, @"Swizzled af_resume Method Not Found");
-    XCTAssert(originalAFSuspendIMP, @"Swizzled af_suspend Method Not Found");
-    XCTAssertNotEqual(originalAFResumeIMP, originalAFSuspendIMP, @"af_resume and af_suspend should not be equal");
+    IMP originalPURResumeIMP = [self _originalPURResumeImplementation];
+    IMP originalPURSuspendIMP = [self _originalPURSuspendImplementation];
+    XCTAssert(originalPURResumeIMP, @"Swizzled af_resume Method Not Found");
+    XCTAssert(originalPURSuspendIMP, @"Swizzled af_suspend Method Not Found");
+    XCTAssertNotEqual(originalPURResumeIMP, originalPURSuspendIMP, @"af_resume and af_suspend should not be equal");
 }
 
 - (void)testSwizzlingIsWorkingAsExpectedForForegroundDataTask {
@@ -473,7 +473,7 @@
 #pragma mark - private
 
 - (void)_testResumeNotificationForTask:(NSURLSessionTask *)task {
-    [self expectationForNotification:AFNetworkingTaskDidResumeNotification
+    [self expectationForNotification:PURNetworkingTaskDidResumeNotification
                               object:nil
                              handler:nil];
     [task resume];
@@ -484,7 +484,7 @@
 }
 
 - (void)_testSuspendNotificationForTask:(NSURLSessionTask *)task {
-    [self expectationForNotification:AFNetworkingTaskDidSuspendNotification
+    [self expectationForNotification:PURNetworkingTaskDidSuspendNotification
                               object:nil
                              handler:nil];
     [task resume];
@@ -508,12 +508,12 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-- (IMP)_originalAFResumeImplementation {
-    return method_getImplementation(class_getInstanceMethod(NSClassFromString(@"_AFURLSessionTaskSwizzling"), @selector(af_resume)));
+- (IMP)_originalPURResumeImplementation {
+    return method_getImplementation(class_getInstanceMethod(NSClassFromString(@"_PURURLSessionTaskSwizzling"), @selector(af_resume)));
 }
 
-- (IMP)_originalAFSuspendImplementation {
-    return method_getImplementation(class_getInstanceMethod(NSClassFromString(@"_AFURLSessionTaskSwizzling"), @selector(af_suspend)));
+- (IMP)_originalPURSuspendImplementation {
+    return method_getImplementation(class_getInstanceMethod(NSClassFromString(@"_PURURLSessionTaskSwizzling"), @selector(af_suspend)));
 }
 
 - (void)_testSwizzlingForTask:(NSURLSessionTask *)task {
@@ -521,20 +521,20 @@
 }
 
 - (void)_testSwizzlingForTaskClass:(Class)class {
-    IMP originalAFResumeIMP = [self _originalAFResumeImplementation];
-    IMP originalAFSuspendIMP = [self _originalAFSuspendImplementation];
+    IMP originalPURResumeIMP = [self _originalPURResumeImplementation];
+    IMP originalPURSuspendIMP = [self _originalPURSuspendImplementation];
     
     IMP taskResumeImp = [self _implementationForClass:class selector:@selector(resume)];
     IMP taskSuspendImp = [self _implementationForClass:class selector:@selector(suspend)];
-    XCTAssertEqual(originalAFResumeIMP, taskResumeImp, @"resume has not been properly swizzled for %@", NSStringFromClass(class));
-    XCTAssertEqual(originalAFSuspendIMP, taskSuspendImp, @"suspend has not been properly swizzled for %@", NSStringFromClass(class));
+    XCTAssertEqual(originalPURResumeIMP, taskResumeImp, @"resume has not been properly swizzled for %@", NSStringFromClass(class));
+    XCTAssertEqual(originalPURSuspendIMP, taskSuspendImp, @"suspend has not been properly swizzled for %@", NSStringFromClass(class));
     
-    IMP taskAFResumeImp = [self _implementationForClass:class selector:@selector(af_resume)];
-    IMP taskAFSuspendImp = [self _implementationForClass:class selector:@selector(af_suspend)];
-    XCTAssert(taskAFResumeImp != NULL, @"af_resume is nil. Something has not been been swizzled right for %@", NSStringFromClass(class));
-    XCTAssertNotEqual(taskAFResumeImp, taskResumeImp, @"af_resume has not been properly swizzled for %@", NSStringFromClass(class));
-    XCTAssert(taskAFSuspendImp != NULL, @"af_suspend is nil. Something has not been been swizzled right for %@", NSStringFromClass(class));
-    XCTAssertNotEqual(taskAFSuspendImp, taskSuspendImp, @"af_suspend has not been properly swizzled for %@", NSStringFromClass(class));
+    IMP taskPURResumeImp = [self _implementationForClass:class selector:@selector(af_resume)];
+    IMP taskPURSuspendImp = [self _implementationForClass:class selector:@selector(af_suspend)];
+    XCTAssert(taskPURResumeImp != NULL, @"af_resume is nil. Something has not been been swizzled right for %@", NSStringFromClass(class));
+    XCTAssertNotEqual(taskPURResumeImp, taskResumeImp, @"af_resume has not been properly swizzled for %@", NSStringFromClass(class));
+    XCTAssert(taskPURSuspendImp != NULL, @"af_suspend is nil. Something has not been been swizzled right for %@", NSStringFromClass(class));
+    XCTAssertNotEqual(taskPURSuspendImp, taskSuspendImp, @"af_suspend has not been properly swizzled for %@", NSStringFromClass(class));
 }
 #pragma clang diagnostic pop
 

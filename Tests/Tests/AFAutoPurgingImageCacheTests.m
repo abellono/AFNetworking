@@ -1,4 +1,4 @@
-// AFAutoPurgingImageCacheTests.m
+// PURAutoPurgingImageCacheTests.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,18 +20,18 @@
 // THE SOFTWARE.
 
 #import <XCTest/XCTest.h>
-#import "AFAutoPurgingImageCache.h"
+#import "PURAutoPurgingImageCache.h"
 
-@interface AFAutoPurgingImageCacheTests : XCTestCase
-@property (nonatomic, strong) AFAutoPurgingImageCache *cache;
+@interface PURAutoPurgingImageCacheTests : XCTestCase
+@property (nonatomic, strong) PURAutoPurgingImageCache *cache;
 @property (nonatomic, strong) UIImage *testImage;
 @end
 
-@implementation AFAutoPurgingImageCacheTests
+@implementation PURAutoPurgingImageCacheTests
 
 - (void)setUp {
     [super setUp];
-    self.cache = [[AFAutoPurgingImageCache alloc] initWithMemoryCapacity:100 * 1024 * 1024
+    self.cache = [[PURAutoPurgingImageCache alloc] initWithMemoryCapacity:100 * 1024 * 1024
                                                  preferredMemoryCapacity:60 * 1024 * 1024];
 
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"logo" ofType:@"png"];
@@ -186,7 +186,7 @@
     UInt64 imageSize = 1020000;
     UInt64 numberOfImages = 10;
     UInt64 numberOfImagesAfterPurge = 6;
-    self.cache = [[AFAutoPurgingImageCache alloc] initWithMemoryCapacity:numberOfImages * imageSize preferredMemoryCapacity:numberOfImagesAfterPurge * imageSize];
+    self.cache = [[PURAutoPurgingImageCache alloc] initWithMemoryCapacity:numberOfImages * imageSize preferredMemoryCapacity:numberOfImagesAfterPurge * imageSize];
     NSUInteger index = 1;
     while (YES) {
         NSString * identifier = [NSString stringWithFormat:@"image-%ld",(long)index];
@@ -205,7 +205,7 @@
     UInt64 imageSize = 1020000;
     UInt64 numberOfImages = 10;
     UInt64 numberOfImagesAfterPurge = 6;
-    self.cache = [[AFAutoPurgingImageCache alloc] initWithMemoryCapacity:numberOfImages * imageSize preferredMemoryCapacity:numberOfImagesAfterPurge * imageSize];
+    self.cache = [[PURAutoPurgingImageCache alloc] initWithMemoryCapacity:numberOfImages * imageSize preferredMemoryCapacity:numberOfImagesAfterPurge * imageSize];
     for (NSUInteger index = 0; index < numberOfImages; index ++) {
         NSString * identifier = [NSString stringWithFormat:@"image-%ld",(long)index];
         [self.cache addImage:self.testImage withIdentifier:identifier];

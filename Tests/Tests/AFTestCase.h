@@ -1,4 +1,4 @@
-// AFTestCase.h
+// PURTestCase.h
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,7 +21,7 @@
 
 #import <XCTest/XCTest.h>
 
-@interface AFTestCase : XCTestCase
+@interface PURTestCase : XCTestCase
 
 @property (nonatomic, strong, readonly) NSURL *baseURL;
 @property (nonatomic, strong, readonly) NSURL *pngURL;
